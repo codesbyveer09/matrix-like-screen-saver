@@ -1,21 +1,11 @@
 import pygame,time,random
 
 def init():
-    global blue, red, d_green, green, yellow, cyan, lime,\
-       orange, white, black, grey, night_blue
-
-    blue = 100, 120, 180
-    red = 200, 0, 0
-    d_green = 1, 50, 32
+    global d_green, green, white, black
+    d_green = 5, 150, 50
     green = 0,225,0
-    yellow = 210, 210, 50
-    cyan = 85, 150, 200
-    lime = 60, 200, 120
-    orange = 255, 69, 0
     white = 253, 251, 249
     black = 21, 23, 24
-    grey = 150, 150, 150
-    night_blue = 0, 0, 30
 
     global screen, X, Y, f_sz, font, MIN
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -50,33 +40,26 @@ s = "".join([chr(x) for x in range(33,127)])
 l = []
 d = {}
 for i in range(Y//20):
-    a = []
-    for j in range(X//22):
-        a.append(" ")
-    l.append(a)
-
+    l.append([" "]*(X//22))
 for i in range(X//22):
     d[i] = []
 
-
 ct = time.time()
+
 
 while time.time() < ct+MIN*60:
     
-
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
             exit(0)
 
-
     #Creator
-    for _ in range(5):
+    for _ in range(15):
         y = random.randrange(0,X//22)
-        dist = random.randint(4,10)
-        if random.random() < 0.2 and l[0][y] == l[dist//2][y] == l[dist][y] == " ":
-            sz = random.randint(9,24)
-            d[y].append([-sz-1,-1])            #tail, head
-
+        dist = random.randint(3,14)
+        if random.random() < 0.3 and l[0][y] == l[dist//2][y] == l[dist][y] == " ":
+            d[y].append([-random.randint(20,30)-1,-1])            #tail, head
+    
     render()
 
     #Proceeder
@@ -85,14 +68,22 @@ while time.time() < ct+MIN*60:
         for j in range(len(d[i])):
             for k in range(len(d[i][j])):
                 d[i][j][k] += 1
-            if d[i][j][0] >= len(l):
+            if d[i][j][0] > len(l):
                 dlt.append([i,d[i][j]])
-            if d[i][j][0] < len(l):
+            elif d[i][j][0] < len(l):
                 l[d[i][j][0]][i] = " "
                 if d[i][j][1] < len(l):
-                    l[d[i][j][1]][i] = random.choice(s)
-                    prt(l[d[i][j][1]][i], 18*i + 9, 20*d[i][j][1] - 20, white)
-    
+                    if i in range(X//44 - len(time.ctime())//2, X//44 + len(time.ctime())//2):
+                        l[d[i][j][1]][i] = time.ctime()[i - X//44 + len(time.ctime())//2]
+                    else:
+                        l[d[i][j][1]][i] = random.choice(s)
+                    if d[i][j][1]+1 < len(l) and l[d[i][j][1]+1][i] != "-":
+                        prt(l[d[i][j][1]][i], 18*i + 9, 20*d[i][j][1] - 20, white)
+
+    #Time
+    for i in range(-1,2):
+        prt(" ".join(list((("|"+time.ctime()+"|").replace("  ", " ")).replace(" ", "|"))), (18*(X//44 - len((("|"+time.ctime()+"|").replace("  ", " ")).replace(" ", "|"))//2) + 9), 20*(Y//40 - 5 - i), d_green)
+
 
     for i in dlt:
         d[i[0]].remove(i[1])
