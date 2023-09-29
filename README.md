@@ -5,4 +5,4 @@ Use Monospaced typefaces for better experience, eg.: SourceCodePro(https://githu
 
 Preview:
 
-![2023-09-29 15_47_00-pygame window](https://github.com/codesbyveer09/matrix-like-screen-saver/assets/57525741/330ed526-7ec1-46d5-ad1a-f2b7b055ecb9)
+![2023-09-29 15_47_00-pygame window](https://github.com/codesbyveer09/matrix-like-screen-saver/assets/57525741/c0e923d6-f954-4bd1-b145-a1c8a55c1e76)
